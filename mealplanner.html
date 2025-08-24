@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Meal Planner</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Baloo Bhai', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2, #ff6a88, #ff99ac);
+            color: white;
+            text-align: center;
+            padding: 0;
+        }
+        /* Navbar */
+        
+        nav {
+            background: linear-gradient(135deg, #667eea, #764ba2, #ff6a88, #ff99ac);
+            padding: 15px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        h1 {
+            margin: 20px 0;
+            color: #FFD700;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+        
+        select,
+        input,
+        button {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+        
+        button {
+            background: #FFD700;
+            color: black;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        button:hover {
+            background: #ffc107;
+            transform: scale(1.05);
+        }
+        
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        #mealTotals {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        canvas {
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 🌟 Navbar -->
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="workout.html">Workout Planner</a>
+        <a href="fitnesscalculator.html">Fitness Calculator</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <h1>🍴 Interactive Meal Planner</h1>
+    <div class="container">
+        <div>
+            <select id="foodSelect">
+        <optgroup label="🥗 Healthy Foods">
+          <option value="rice">Rice</option>
+          <option value="brownRice">Brown Rice</option>
+          <option value="quinoa">Quinoa</option>
+          <option value="chicken">Chicken</option>
+          <option value="fish">Fish</option>
+          <option value="eggs">Eggs</option>
+          <option value="milk">Milk</option>
+          <option value="paneer">Paneer</option>
+          <option value="tofu">Tofu</option>
+          <option value="lentils">Lentils</option>
+          <option value="oats">Oats</option>
+          <option value="banana">Banana</option>
+          <option value="apple">Apple</option>
+          <option value="orange">Orange</option>
+          <option value="grapes">Grapes</option>
+          <option value="mango">Mango</option>
+          <option value="spinach">Spinach</option>
+          <option value="broccoli">Broccoli</option>
+          <option value="sweetPotato">Sweet Potato</option>
+          <option value="almonds">Almonds</option>
+          <option value="peanuts">Peanuts</option>
+        </optgroup>
+        <optgroup label="🍔 Street Foods">
+          <option value="samosa">Samosa</option>
+          <option value="panipuri">Pani Puri</option>
+          <option value="burger">Burger</option>
+          <option value="pizza">Pizza</option>
+          <option value="fries">French Fries</option>
+          <option value="vadaPav">Vada Pav</option>
+          <option value="chowmein">Chowmein</option>
+          <option value="pavBhaji">Pav Bhaji</option>
+          <option value="kathiRoll">Kathi Roll</option>
+          <option value="choleBhature">Chole Bhature</option>
+        </optgroup>
+        <optgroup label="🍦 Desserts & Ice Creams">
+          <option value="iceCream">Ice Cream</option>
+          <option value="gulabJamun">Gulab Jamun</option>
+          <option value="jalebi">Jalebi</option>
+          <option value="rasgulla">Rasgulla</option>
+          <option value="kheer">Kheer</option>
+          <option value="laddu">Laddu</option>
+          <option value="barfi">Barfi</option>
+          <option value="chocolate">Chocolate</option>
+          <option value="cake">Cake</option>
+          <option value="donut">Donut</option>
+        </optgroup>
+      </select>
+            <input type="number" id="foodQty" placeholder="Quantity (grams)" />
+            <button onclick="addFood()">Add</button>
+        </div>
+
+        <h3>Meal Items</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Food</th>
+                    <th>Qty (g)</th>
+                    <th>Calories</th>
+                    <th>Protein (g)</th>
+                    <th>Carbs (g)</th>
+                    <th>Fat (g)</th>
+                </tr>
+            </thead>
+            <tbody id="mealTable"></tbody>
+        </table>
+
+        <h3>Totals</h3>
+        <p id="mealTotals">Calories: 0 | Protein: 0g | Carbs: 0g | Fat: 0g</p>
+
+        <canvas id="macroChart" width="400" height="400"></canvas>
+    </div>
+
+    <script>
+        const foodDB = {
+            rice: {
+                calories: 130,
+                protein: 2.7,
+                carbs: 28,
+                fat: 0.3
+            },
+            brownRice: {
+                calories: 111,
+                protein: 2.6,
+                carbs: 23,
+                fat: 0.9
+            },
+            quinoa: {
+                calories: 120,
+                protein: 4.1,
+                carbs: 21,
+                fat: 1.9
+            },
+            chicken: {
+                calories: 165,
+                protein: 31,
+                carbs: 0,
+                fat: 3.6
+            },
+            fish: {
+                calories: 206,
+                protein: 22,
+                carbs: 0,
+                fat: 12
+            },
+            eggs: {
+                calories: 155,
+                protein: 13,
+                carbs: 1.1,
+                fat: 11
+            },
+            milk: {
+                calories: 42,
+                protein: 3.4,
+                carbs: 5,
+                fat: 1
+            },
+            paneer: {
+                calories: 296,
+                protein: 21,
+                carbs: 8,
+                fat: 22
+            },
+            tofu: {
+                calories: 76,
+                protein: 8,
+                carbs: 2,
+                fat: 4
+            },
+            lentils: {
+                calories: 116,
+                protein: 9,
+                carbs: 20,
+                fat: 0.4
+            },
+            oats: {
+                calories: 389,
+                protein: 16.9,
+                carbs: 66,
+                fat: 6.9
+            },
+            banana: {
+                calories: 89,
+                protein: 1.1,
+                carbs: 23,
+                fat: 0.3
+            },
+            apple: {
+                calories: 52,
+                protein: 0.3,
+                carbs: 14,
+                fat: 0.2
+            },
+            orange: {
+                calories: 47,
+                protein: 0.9,
+                carbs: 12,
+                fat: 0.1
+            },
+            grapes: {
+                calories: 69,
+                protein: 0.7,
+                carbs: 18,
+                fat: 0.2
+            },
+            mango: {
+                calories: 60,
+                protein: 0.8,
+                carbs: 15,
+                fat: 0.4
+            },
+            spinach: {
+                calories: 23,
+                protein: 2.9,
+                carbs: 3.6,
+                fat: 0.4
+            },
+            broccoli: {
+                calories: 55,
+                protein: 3.7,
+                carbs: 11,
+                fat: 0.6
+            },
+            sweetPotato: {
+                calories: 86,
+                protein: 1.6,
+                carbs: 20,
+                fat: 0.1
+            },
+            almonds: {
+                calories: 579,
+                protein: 21,
+                carbs: 22,
+                fat: 50
+            },
+            peanuts: {
+                calories: 567,
+                protein: 25,
+                carbs: 16,
+                fat: 49
+            },
+            samosa: {
+                calories: 262,
+                protein: 3.5,
+                carbs: 31,
+                fat: 14
+            },
+            panipuri: {
+                calories: 180,
+                protein: 3,
+                carbs: 27,
+                fat: 7
+            },
+            burger: {
+                calories: 295,
+                protein: 17,
+                carbs: 30,
+                fat: 12
+            },
+            pizza: {
+                calories: 266,
+                protein: 11,
+                carbs: 33,
+                fat: 10
+            },
+            fries: {
+                calories: 312,
+                protein: 3.4,
+                carbs: 41,
+                fat: 15
+            },
+            vadaPav: {
+                calories: 290,
+                protein: 6,
+                carbs: 45,
+                fat: 9
+            },
+            chowmein: {
+                calories: 220,
+                protein: 6,
+                carbs: 32,
+                fat: 7
+            },
+            pavBhaji: {
+                calories: 400,
+                protein: 9,
+                carbs: 45,
+                fat: 20
+            },
+            kathiRoll: {
+                calories: 320,
+                protein: 15,
+                carbs: 35,
+                fat: 12
+            },
+            choleBhature: {
+                calories: 450,
+                protein: 12,
+                carbs: 50,
+                fat: 20
+            },
+            iceCream: {
+                calories: 207,
+                protein: 3.5,
+                carbs: 24,
+                fat: 11
+            },
+            gulabJamun: {
+                calories: 143,
+                protein: 2,
+                carbs: 25,
+                fat: 5
+            },
+            jalebi: {
+                calories: 150,
+                protein: 1,
+                carbs: 36,
+                fat: 0.5
+            },
+            rasgulla: {
+                calories: 186,
+                protein: 4,
+                carbs: 22,
+                fat: 8
+            },
+            kheer: {
+                calories: 151,
+                protein: 3,
+                carbs: 25,
+                fat: 4
+            },
+            laddu: {
+                calories: 160,
+                protein: 3,
+                carbs: 22,
+                fat: 7
+            },
+            barfi: {
+                calories: 200,
+                protein: 4,
+                carbs: 23,
+                fat: 10
+            },
+            chocolate: {
+                calories: 546,
+                protein: 7.8,
+                carbs: 61,
+                fat: 31
+            },
+            cake: {
+                calories: 257,
+                protein: 3.6,
+                carbs: 50,
+                fat: 8
+            },
+            donut: {
+                calories: 452,
+                protein: 4.9,
+                carbs: 51,
+                fat: 25
+            }
+        };
+
+        let totals = {
+            calories: 0,
+            protein: 0,
+            carbs: 0,
+            fat: 0
+        };
+
+        // Chart.js setup
+        const ctx = document.getElementById('macroChart').getContext('2d');
+        let macroChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Protein', 'Carbs', 'Fat'],
+                datasets: [{
+                    data: [0, 0, 0],
+                    backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56']
+                }]
+            }
+        });
+
+        function updateChart() {
+            macroChart.data.datasets[0].data = [
+                totals.protein.toFixed(1),
+                totals.carbs.toFixed(1),
+                totals.fat.toFixed(1)
+            ];
+            macroChart.update();
+        }
+
+        function addFood() {
+            const food = document.getElementById("foodSelect").value;
+            const qty = parseInt(document.getElementById("foodQty").value);
+
+            if (!qty || qty <= 0) return alert("Enter valid quantity");
+
+            const item = foodDB[food];
+            const cals = (item.calories * qty / 100).toFixed(1);
+            const prot = (item.protein * qty / 100).toFixed(1);
+            const carb = (item.carbs * qty / 100).toFixed(1);
+            const fat = (item.fat * qty / 100).toFixed(1);
+
+            document.getElementById("mealTable").innerHTML += `
+    <tr><td>${food}</td><td>${qty}</td>
+    <td>${cals}</td><td>${prot}</td><td>${carb}</td><td>${fat}</td></tr>`;
+
+            totals.calories += parseFloat(cals);
+            totals.protein += parseFloat(prot);
+            totals.carbs += parseFloat(carb);
+            totals.fat += parseFloat(fat);
+
+            document.getElementById("mealTotals").innerText =
+                `Calories: ${totals.calories.toFixed(1)} | Protein: ${totals.protein.toFixed(1)}g | Carbs: ${totals.carbs.toFixed(1)}g | Fat: ${totals.fat.toFixed(1)}g`;
+
+            updateChart();
+        }
+    </script>
+</body>
+
+</html>
