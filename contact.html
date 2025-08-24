@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Holu Fitness</title>
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Bhai" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .contact-container {
+            max-width: 600px;
+            margin: 140px auto 100px;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .contact-container h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin: 15px 0;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            font-family: 'Baloo Bhai';
+            display: block;
+            width: 100%;
+            padding: 12px;
+            border: 2px solid black;
+            font-size: 18px;
+            border-radius: 15px;
+            transition: background 0.3s;
+        }
+        
+        .form-group input:hover,
+        .form-group textarea:hover {
+            background-color: gold;
+        }
+        
+        .form-group textarea {
+            resize: none;
+            height: 120px;
+        }
+        
+        .btn-submit {
+            margin-top: 20px;
+            width: 100%;
+        }
+        
+        .info {
+            margin-top: 30px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header class="header">
+        <div class="left">
+            <img src="harsh.jpg" alt="Gym Logo">
+            <div>Holu Fitness</div>
+        </div>
+        <div class="mid">
+            <ul class="navbar">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="fitnesscalculator.html">Fitness Calculator</a></li>
+                <li><a href="contact.html" class="active">Contact Us</a></li>
+                <li><a href="workout.html">Workout</a></li>
+            </ul>
+        </div>
+        <div class="right">
+            <button class="btn">Call Us Now</button>
+            <button class="btn">Email Us Now</button>
+        </div>
+    </header>
+
+    <!-- Contact Form -->
+    <div class="contact-container">
+        <h1>Contact Us</h1>
+        <form action="mailto:your-email@example.com" method="post" enctype="text/plain">
+            <div class="form-group">
+                <input type="text" name="name" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <textarea name="message" placeholder="Enter your message" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-submit">Send Message</button>
+        </form>
+
+        <div class="info">
+            📍 <b>Address:</b> 123 Fitness Street, Delhi, India <br> 📞 <b>Phone:</b> +91 98765 43210 <br> ✉️ <b>Email:</b> contact@holufitness.com
+        </div>
+    </div>
+
+    <footer style="position:fixed; bottom:0; left:0; width:100%; background:#000; color:#fff; text-align:center; padding:12px; font-family:'Baloo Bhai'; font-size:14px; z-index:100;">
+        &copy; 2025 Holu Fitness. All Rights Reserved.
+    </footer>
+</body>
+
+</html>

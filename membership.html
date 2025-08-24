@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership Plans - Holu Fitness</title>
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Bhai" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Floating Emoji Background */
+        
+        .emoji {
+            position: fixed;
+            bottom: -50px;
+            font-size: 30px;
+            opacity: 0.7;
+            animation: floatUp linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-120vh);
+                opacity: 0;
+            }
+        }
+        /* Membership container */
+        
+        .plans-container {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            margin: 140px auto 100px;
+            padding: 44px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .plans-container h1 {
+            font-size: 34px;
+            margin-bottom: 30px;
+        }
+        
+        .plans {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .plan-box {
+            background: #111;
+            padding: 25px;
+            border-radius: 15px;
+            width: 280px;
+            text-align: center;
+            transition: transform 0.3s, background 0.3s;
+        }
+        
+        .plan-box:hover {
+            transform: translateY(-10px);
+            background: #222;
+        }
+        
+        .plan-box h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: gold;
+        }
+        
+        .plan-box p {
+            font-size: 16px;
+            margin: 8px 0;
+        }
+        
+        .price {
+            font-size: 22px;
+            margin: 15px 0;
+            color: yellow;
+        }
+        
+        .btn-join {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: black;
+            border: 2px solid gray;
+            border-radius: 10px;
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        
+        .btn-join:hover {
+            background: gray;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header class="header">
+        <div class="left">
+            <img src="harsh.jpg" alt="Gym Logo">
+            <div>Holu Fitness</div>
+        </div>
+        <div class="mid">
+            <ul class="navbar">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="fitnesscalculator.html">Fitness Calculator</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="workout.html">Workout</a></li>
+            </ul>
+        </div>
+        <div class="right">
+            <button class="btn">Call Us Now</button>
+            <button class="btn">Email Us Now</button>
+        </div>
+    </header>
+
+    <!-- Membership Plans -->
+    <div class="plans-container">
+        <h1>Our Membership Plans</h1>
+        <div class="plans">
+            <!-- Basic Plan -->
+            <div class="plan-box">
+                <h2>Basic Plan</h2>
+                <p>💪 Gym Access</p>
+                <p>📅 1 Month</p>
+                <p>❌ No Personal Trainer</p>
+                <p>❌ No Diet Plan</p>
+                <div class="price">₹999 / month</div>
+                <a href="gym.html" class="btn-join">Join Now</a>
+            </div>
+
+            <!-- Standard Plan -->
+            <div class="plan-box">
+                <h2>Standard Plan</h2>
+                <p>💪 Gym Access</p>
+                <p>👨‍🏫 Personal Trainer</p>
+                <p>📅 3 Months</p>
+                <p>❌ No Diet Plan</p>
+                <div class="price">₹2499 / 3 months</div>
+                <a href="gym.html" class="btn-join">Join Now</a>
+            </div>
+
+            <!-- Premium Plan -->
+            <div class="plan-box">
+                <h2>Premium Plan</h2>
+                <p>💪 Gym Access</p>
+                <p>👨‍🏫 Personal Trainer</p>
+                <p>🥗 Diet Plan</p>
+                <p>📅 6 Months</p>
+                <div class="price">₹4999 / 6 months</div>
+                <a href="gym.html" class="btn-join">Join Now</a>
+            </div>
+
+            <!-- Annual Plan -->
+            <div class="plan-box">
+                <h2>Annual Plan</h2>
+                <p>💪 Gym Access</p>
+                <p>👨‍🏫 Personal Trainer</p>
+                <p>🥗 Diet Plan</p>
+                <p>🧘 Yoga & Classes</p>
+                <div class="price">₹8999 / year</div>
+                <a href="gym.html" class="btn-join">Join Now</a>
+            </div>
+        </div>
+    </div>
+
+    <footer style="position:fixed; bottom:0; left:0; width:100%; background:#000; color:#fff; text-align:center; padding:12px; font-family:'Baloo Bhai'; font-size:14px; z-index:100;">
+        &copy; 2025 Holu Fitness. All Rights Reserved.
+    </footer>
+
+    <!-- Floating Emojis Script -->
+    <script>
+        const emojis = ["💪", "🏋️‍♂️", "🏋️‍♀️", "🥗", "🏃‍♂️", "🥊", "🧘‍♂️", "⛹️‍♂️"];
+        const emojiCount = 30;
+
+        for (let i = 0; i < emojiCount; i++) {
+            let emoji = document.createElement("div");
+            emoji.classList.add("emoji");
+            emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+
+            // random horizontal position
+            emoji.style.left = Math.random() * 100 + "vw";
+
+            // random speed
+            let duration = 6 + Math.random() * 10;
+            emoji.style.animationDuration = duration + "s";
+
+            // random size
+            emoji.style.fontSize = (20 + Math.random() * 40) + "px";
+
+            // delay start so they don’t all float together
+            emoji.style.animationDelay = Math.random() * 10 + "s";
+
+            document.body.appendChild(emoji);
+
+            // Respawn emoji after each cycle
+            emoji.addEventListener("animationiteration", () => {
+                emoji.style.left = Math.random() * 100 + "vw";
+                emoji.style.animationDuration = (6 + Math.random() * 10) + "s";
+                emoji.style.fontSize = (20 + Math.random() * 40) + "px";
+            });
+        }
+    </script>
+</body>
+
+</html>

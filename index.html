@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holu Fitness</title>
+    <link href='https://fonts.googleapis.com/css?family=Baloo Bhai' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+</head>
+<script>
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            document.getElementById('loader').style.display = 'none';
+        }, 4000); // Hide loader after 3 seconds
+    });
+</script>
+
+
+
+<body>
+    <!-- Preloader with Hanuman Ji Image and Quote -->
+    <div id="loader">
+        <div id="quoteBox">
+            <img src="hanumanji.jpg" alt="Lord Hanuman" id="loaderImage">
+            <p id="quoteText">“श्रीगुरु चरन सरोज रज, निज मनु मुकुरु सुधारि। बरनऊं रघुबर बिमल जसु, जो दायकु फल चारि”</p>
+        </div>
+    </div>
+
+
+
+    <!-- Header -->
+    <header class="header">
+        <div class="left">
+            <a href="trainer.html">
+                <img src="harsh.jpg" alt="Gym Logo">
+            </a>
+
+            <div>Holu Fitness</div>
+        </div>
+        <div class="mid">
+            <ul class="navbar">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="right">
+            <button class="btn">Call Us Now</button>
+            <button class="btn">Email Us Now</button>
+        </div>
+    </header>
+
+    <!-- Join Form -->
+    <!-- <div class="container">
+        <h1>Join the Best Gym of Delhi Now</h1>
+        <form action="noaction.php">
+            <div class="form-group">
+                <input type="text" name="name" placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <input type="number" name="age" placeholder="Enter your age">
+            </div>
+            <div class="form-group">
+                <input type="text" name="gender" placeholder="Enter your gender">
+            </div>
+            <div class="form-group">
+                <input type="text" name="locality" placeholder="Enter your locality">
+            </div>
+            <div class="form-group">
+                <input type="tel" name="contact" placeholder="Enter your contact">
+            </div>
+            <button class="btn">Submit</button>
+        </form>
+    </div> -->
+
+    <!-- Explore Features Section -->
+    <section style="margin:100px auto; max-width:1100px; text-align:center; color:white;">
+        <h2 style="font-size:36px; margin-bottom:30px; color:gold;     margin-top: -20px;">Explore Our Features</h2>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:20px;">
+
+            <div style="background:rgba(0,0,0,0.7); padding:25px; border-radius:15px; transition:0.3s;">
+                <h3>💪 Workout Plans</h3>
+                <p>Personalized exercises for your fitness goals.</p>
+                <a href="workout.html"><button class="btn">Explore</button></a>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.7); padding:25px; border-radius:15px; transition:0.3s;">
+                <h3>🥗 Diet Plans</h3>
+                <p>Nutrition guides for weight loss or muscle gain.</p>
+                <a href="diet.html"><button class="btn">Explore</button></a>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.7); padding:25px; border-radius:15px; transition:0.3s;">
+                <h3>📊 Fitness Calculator</h3>
+                <p>Check BMI, Calories, and other fitness stats.</p>
+                <a href="fitnesscalculator.html"><button class="btn">Explore</button></a>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.7); padding:25px; border-radius:15px; transition:0.3s;">
+                <h3>📝 Membership</h3>
+                <p>Join our gym and unlock premium facilities.</p>
+                <a href="membership.html"><button class="btn">Join Now</button></a>
+            </div>
+
+        </div>
+    </section>
+    <!-- Featured Exercises Section -->
+    <section style="margin:80px auto; max-width:1100px; text-align:center; color:white;">
+        <h2 style="font-size:36px; margin-bottom:30px; color:gold;">🧘 Surya Namaskar Steps</h2>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:20px;">
+
+            <div style="background:rgba(0,0,0,0.7); padding:15px; border-radius:15px;">
+                <img src="a.png" alt="Pranamasana" style="width:100%; border-radius:10px;">
+                <h4>1. Pranamasana (Prayer Pose)</h4>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.7); padding:15px; border-radius:15px;">
+                <img src="b.png" alt="Hastauttanasana" style="width:100%; border-radius:10px;">
+                <h4>2. Hastauttanasana (Raised Arms Pose)</h4>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.7); padding:15px; border-radius:15px;">
+                <img src="c.png" alt="Padahastasana" style="width:100%; border-radius:10px;">
+                <h4>3. Padahastasana (Hand to Foot Pose)</h4>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.7); padding:15px; border-radius:15px;">
+                <img src="d.png" alt="Ashwa Sanchalanasana" style="width:100%; border-radius:10px;">
+                <h4>4. Ashwa Sanchalanasana (Equestrian Pose)</h4>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.7); padding:15px; border-radius:19px;">
+                <img src="e.png" alt="Dandasana" style="width:100%; border-radius:10px;">
+                <h4>5. Dandasana (Stick Pose)</h4>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.7); padding:15px; border-radius:15px;">
+                <img src="f.png" alt="Ashtanga Namaskara" style="width:100%; border-radius:10px;">
+                <h4>6. Ashtanga Namaskara (Eight Limbed Pose)</h4>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.7); padding:15px; border-radius:15px;">
+                <img src="g.png" alt="Bhujangasana" style="width:100%; border-radius:10px;">
+                <h4>7. Bhujangasana (Cobra Pose)</h4>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.7); padding:15px; border-radius:15px;">
+                <img src="h.png" alt="Parvatasana" style="width:100%; border-radius:10px;">
+                <h4>8. Parvatasana (Mountain Pose)</h4>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.7); padding:15px; border-radius:15px;">
+                <img src="i.png" alt="Hastauttanasana" style="width:100%; border-radius:10px;">
+                <h4>9. Hastauttanasana (Raised Arms Pose)</h4>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.7); padding:15px; border-radius:15px;">
+                <img src="j.png" alt="Pranamasana" style="width:100%; border-radius:10px;">
+                <h4>10. Pranamasana (Prayer Pose)</h4>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer style="position:fixed; bottom:0; left:0; width:100%; background:#000; color:#fff; text-align:center; padding:12px; font-family: 'Baloo Bhai', sans-serif; font-size:14px; z-index:100;">
+        &copy; 2025 Holu Fitness. All Rights Reserved.
+    </footer>
+</body>
+
+</html>

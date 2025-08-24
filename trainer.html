@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Trainers - Holu Fitness</title>
+    <link href='https://fonts.googleapis.com/css?family=Baloo Bhai' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Trainer Card Styles */
+        
+        .trainer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1100px;
+            margin: 50px auto;
+            text-align: center;
+        }
+        
+        .trainer-card {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .trainer-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .trainer-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .trainer-info {
+            padding: 20px;
+            color: white;
+        }
+        
+        .trainer-info h3 {
+            margin: 10px 0 5px 0;
+            color: gold;
+        }
+        
+        .trainer-info p {
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="left">
+            <img src="harsh.jpg" alt="Gym Logo">
+            <div>Holu Fitness</div>
+        </div>
+        <div class="mid">
+            <ul class="navbar">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="right">
+            <button class="btn">Call Us Now</button>
+            <button class="btn">Email Us Now</button>
+        </div>
+    </header>
+
+    <!-- Trainers Section -->
+    <section style="color:white; text-align:center;">
+        <h1 style="font-size:36px; margin-top:100px; color:gold;">💪 Meet Our Trainers</h1>
+        <p style="margin-bottom:40px;">Expert guidance to help you reach your fitness goals</p>
+
+        <div class="trainer-grid">
+            <!-- Trainer 1 -->
+            <div class="trainer-card">
+                <img src="https://images.pexels.com/photos/3823039/pexels-photo-3823039.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Trainer 1">
+                <div class="trainer-info">
+                    <h3>Rohit Sharma</h3>
+                    <p>Strength & Weight Training Specialist with 10+ years experience.</p>
+                </div>
+            </div>
+
+            <!-- Trainer 2 -->
+            <div class="trainer-card">
+                <img src="https://images.pexels.com/photos/1552249/pexels-photo-1552249.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Trainer 2">
+                <div class="trainer-info">
+                    <h3>Anjali Verma</h3>
+                    <p>Yoga & Flexibility Expert. Helps beginners and advanced practitioners.</p>
+                </div>
+            </div>
+
+            <!-- Trainer 3 -->
+            <div class="trainer-card">
+                <img src="https://images.pexels.com/photos/414029/pexels-photo-414029.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Trainer 3">
+                <div class="trainer-info">
+                    <h3>Vikram Singh</h3>
+                    <p>Cardio & Endurance Coach, specializes in HIIT & functional training.</p>
+                </div>
+            </div>
+
+            <!-- Trainer 4 -->
+            <div class="trainer-card">
+                <img src="https://images.pexels.com/photos/3757951/pexels-photo-3757951.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Trainer 4">
+                <div class="trainer-info">
+                    <h3>Priya Kapoor</h3>
+                    <p>Nutrition & Diet Planner. Creates meal plans tailored to goals.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="position:fixed; bottom:0; left:0; width:100%; background:#000; color:#fff; text-align:center; padding:12px; font-family: 'Baloo Bhai'; font-size:14px; z-index:100;">
+        &copy; 2025 Holu Fitness. All Rights Reserved.
+    </footer>
+</body>
+
+</html>

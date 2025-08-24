@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Plans - Holu Fitness</title>
+    <link href='https://fonts.googleapis.com/css?family=Baloo Bhai' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .workout-container {
+            max-width: 700px;
+            margin: 120px auto;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .workout-container h1 {
+            margin-bottom: 20px;
+            font-size: 32px;
+            color: gold;
+        }
+        
+        .goal-select {
+            margin-bottom: 20px;
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+        }
+        
+        .plan {
+            text-align: left;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header class="header">
+        <div class="left">
+            <img src="harsh.jpg" alt="Gym Logo">
+            <div>Holu Fitness</div>
+        </div>
+        <div class="mid">
+            <ul class="navbar">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="fitnesscalculator.html">Fitness Calculator</a></li>
+                <li><a href="membership.html">Membership</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </div>
+        <div class="right">
+            <button class="btn">Call Us Now</button>
+            <button class="btn">Email Us Now</button>
+        </div>
+    </header>
+
+    <!-- Workout Plans -->
+    <div class="workout-container">
+        <h1>Choose Your Fitness Goal</h1>
+        <select class="goal-select" id="goalSelect">
+      <option value="">-- Select Goal --</option>
+      <option value="weightLoss">Weight Loss</option>
+      <option value="muscleGain">Muscle Gain</option>
+      <option value="general">General Fitness</option>
+      <option value="yoga">Yoga & Flexibility</option>
+    </select>
+
+        <div class="plan" id="planOutput">
+            Select a goal above to see your workout plan.
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="position:fixed; bottom:0; left:0; width:100%; background:#000; color:#fff; text-align:center; padding:12px; font-family: 'Baloo Bhai', sans-serif; font-size:14px; z-index:100;">
+        &copy; 2025 Holu Fitness. All Rights Reserved.
+    </footer>
+
+    <!-- JS -->
+    <script>
+        const plans = {
+            weightLoss: `
+        🔥 <b>Weight Loss Plan</b><br>
+        - 10 min warm-up (jump rope, jogging)<br>
+        - 20 min HIIT (burpees, squats, push-ups)<br>
+        - 15 min treadmill / cycling<br>
+        - Core workout: planks, mountain climbers<br>
+        - Stretch & cool down
+      `,
+            muscleGain: `
+        💪 <b>Muscle Gain Plan</b><br>
+        - Bench Press: 4x8<br>
+        - Deadlift: 4x6<br>
+        - Squats: 4x8<br>
+        - Pull-ups: 3 sets<br>
+        - Bicep Curls & Tricep Dips: 3x12<br>
+        - Protein-rich post workout meal
+      `,
+            general: `
+        🏃 <b>General Fitness Plan</b><br>
+        - 10 min cardio warm-up<br>
+        - Full-body circuit (push-ups, squats, lunges, sit-ups)<br>
+        - 15 min cycling<br>
+        - Yoga stretches for flexibility<br>
+        - 30 min brisk walk in evening
+      `,
+            yoga: `
+        🧘 <b>Yoga & Flexibility Plan</b><br>
+        - Surya Namaskar (5 rounds)<br>
+        - Downward Dog, Child’s Pose, Cobra Pose<br>
+        - Warrior Poses (I, II, III)<br>
+        - Pranayama breathing (10 min)<br>
+        - Meditation (10 min)
+      `
+        };
+
+        document.getElementById("goalSelect").addEventListener("change", function() {
+            const selected = this.value;
+            document.getElementById("planOutput").innerHTML =
+                selected ? plans[selected] : "Select a goal above to see your workout plan.";
+        });
+    </script>
+
+    <!-- Floating Emojis -->
+    <script src="floating-emojis.js"></script>
+    <script>
+        createFloatingEmojis(["🏋️‍♂️", "💪", "🤸‍♀️", "🚴‍♂️", "🧘"]);
+    </script>
+</body>
+
+</html>

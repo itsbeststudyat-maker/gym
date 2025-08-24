@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Calculator - Holu Fitness</title>
+    <link href='https://fonts.googleapis.com/css?family=Baloo Bhai' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="left">
+            <img src="harsh.jpg" alt="Gym Logo">
+            <div>Holu Fitness</div>
+        </div>
+        <div class="mid">
+            <ul class="navbar">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="right">
+            <button class="btn">Call Us Now</button>
+            <button class="btn">Email Us Now</button>
+        </div>
+    </header>
+
+    <!-- Calculator Section -->
+    <section style="margin:100px auto; max-width:900px; color:white; text-align:center;">
+        <h1 style="color:gold; font-size:36px;">⚡ Fitness Calculator</h1>
+        <p>Calculate your BMI, BMR, and daily calorie needs</p>
+
+        <div style="background:rgba(0,0,0,0.7); padding:30px; border-radius:20px; margin-top:20px;">
+            <label>Age: <input type="number" id="age" placeholder="Years"></label><br><br>
+            <label>Gender:
+        <select id="gender">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </label><br><br>
+            <label>Height (cm): <input type="number" id="height"></label><br><br>
+            <label>Weight (kg): <input type="number" id="weight"></label><br><br>
+            <label>Activity Level:
+        <select id="activity">
+          <option value="1.2">Sedentary</option>
+          <option value="1.375">Lightly Active</option>
+          <option value="1.55">Moderately Active</option>
+          <option value="1.725">Very Active</option>
+          <option value="1.9">Athlete</option>
+        </select>
+      </label><br><br>
+
+            <button onclick="calculate()" class="btn">Calculate</button>
+        </div>
+
+        <div id="results" style="margin-top:30px; font-size:18px;"></div>
+
+        <canvas id="resultChart" style="margin-top:30px; background:white; border-radius:10px; padding:10px;"></canvas>
+    </section>
+
+    <!-- Footer -->
+    <footer style="position:fixed; bottom:0; left:0; width:100%; background:#000; color:#fff; text-align:center; padding:12px; font-family: 'Baloo Bhai'; font-size:14px; z-index:100;">
+        &copy; 2025 Holu Fitness. All Rights Reserved.
+    </footer>
+
+    <script>
+        let chart;
+
+        function calculate() {
+            const age = parseInt(document.getElementById("age").value);
+            const gender = document.getElementById("gender").value;
+            const height = parseFloat(document.getElementById("height").value);
+            const weight = parseFloat(document.getElementById("weight").value);
+            const activity = parseFloat(document.getElementById("activity").value);
+
+            if (!age || !height || !weight) {
+                alert("Please enter all fields!");
+                return;
+            }
+
+            // BMI
+            const bmi = (weight / ((height / 100) ** 2)).toFixed(1);
+
+            // BMR (Mifflin-St Jeor Equation)
+            let bmr;
+            if (gender === "male") {
+                bmr = 88.36 + (13.4 * weight) + (4.8 * height) + (5.7 * age);
+            } else {
+                bmr = 447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age);
+            }
+
+            // Daily Calorie Needs
+            const calories = Math.round(bmr * activity);
+
+            // Advice
+            let advice;
+            if (bmi < 18.5) {
+                advice = "You are underweight. Increase calorie intake and focus on strength training.";
+            } else if (bmi < 24.9) {
+                advice = "You have a healthy weight. Maintain with balanced diet & exercise.";
+            } else if (bmi < 29.9) {
+                advice = "You are overweight. Add cardio and reduce calorie intake.";
+            } else {
+                advice = "You are obese. Focus on calorie deficit diet + regular workout.";
+            }
+
+            document.getElementById("results").innerHTML = `
+        <p><b>BMI:</b> ${bmi}</p>
+        <p><b>BMR:</b> ${Math.round(bmr)} calories/day</p>
+        <p><b>Daily Calorie Needs:</b> ${calories} calories/day</p>
+        <p style="color:gold;"><b>Advice:</b> ${advice}</p>
+      `;
+
+            // Chart.js
+            const ctx = document.getElementById("resultChart").getContext("2d");
+            if (chart) chart.destroy();
+            chart = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: ["BMI", "BMR", "Calories"],
+                    datasets: [{
+                        label: "Your Results",
+                        data: [bmi, bmr, calories],
+                        backgroundColor: ["#ff6384", "#36a2eb", "#ffcd56"]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+    <!-- Explanation Section -->
+    <section style="margin:50px auto; max-width:900px; color:white; text-align:left; background:rgba(0,0,0,0.7); padding:25px; border-radius:15px;">
+        <h2 style="color:gold; text-align:center; margin-bottom:20px;">📖 What These Terms Mean</h2>
+
+        <p><b>BMI (Body Mass Index):</b> Measures your body weight in relation to your height. It helps you know if you are underweight, healthy, overweight, or obese. <i>(Example: BMI of 22 is healthy)</i>.</p>
+
+        <p><b>BMR (Basal Metabolic Rate):</b> The number of calories your body needs at rest to maintain basic functions like breathing, heartbeat, and body temperature. <i>(Example: If your BMR is 1500, your body burns 1500 calories/day even without exercise)</i>.</p>
+
+        <p><b>Daily Calorie Needs:</b> The total calories your body needs per day based on your activity level. This includes your BMR plus calories burned by daily activities and exercise. <i>(Example: If your daily needs are 2200 calories, eating more will lead to weight gain, eating less may help lose weight)</i>.</p>
+
+        <p><b>Advice:</b> Based on your BMI, this gives simple suggestions like increasing protein, adding cardio, or maintaining current habits.</p>
+    </section>
+
+</body>
+
+</html>
