@@ -13,7 +13,6 @@
             color: white;
             margin: 8px;
             padding: 80px;
-            /* Soft Purple → Pink → Peach gradient */
             background: linear-gradient(135deg, #667eea, #764ba2, #ff6a88, #ff99ac);
             background-attachment: fixed;
             background-size: cover;
@@ -154,7 +153,7 @@
     <header class="header" style="position:fixed; 
            top:0; 
            left:0; 
-           width:0100%; 
+           width:100%; 
            background:linear-gradient(135deg, #667eea, #764ba2, #ff6a88, #ff99ac); 
            z-index:100; 
            display:flex; 
@@ -167,11 +166,10 @@
 
             <a href="trainer.html">
                 <img src="harsh.jpg" alt="Gym Logo" style="width:80px; border-radius:50%;">
-
             </a>
             <div style="color:white; font-size:18px;">Holu Fitness</div>
-
         </div>
+
         <div class="mid">
             <ul class="navbar" style="margin:0; padding:0; list-style:none; display:flex; gap:15px;">
                 <li><a href="index.html">Home</a></li>
@@ -179,6 +177,7 @@
                 <li><a href="contact.html">Contact Us</a></li>
             </ul>
         </div>
+
         <div class="right" style="display:flex; gap:10px;">
             <button class="btn">Call Us Now</button>
             <button class="btn">Email Us Now</button>
@@ -195,18 +194,18 @@
                 <form id="calculatorForm">
                     <input type="number" id="age" placeholder="Age" required>
                     <select id="gender" required>
-  <option value="male">Male</option>
-  <option value="female">Female</option>
-</select>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
                     <input type="number" id="height" placeholder="Height (cm)" required>
                     <input type="number" id="weight" placeholder="Weight (kg)" required>
                     <select id="activity" required>
-  <option value="1.2">Sedentary</option>
-  <option value="1.375">Lightly Active</option>
-  <option value="1.55">Moderately Active</option>
-  <option value="1.725">Very Active</option>
-  <option value="1.9">Athlete</option>
-</select>
+                        <option value="1.2">Sedentary</option>
+                        <option value="1.375">Lightly Active</option>
+                        <option value="1.55">Moderately Active</option>
+                        <option value="1.725">Very Active</option>
+                        <option value="1.9">Athlete</option>
+                    </select>
                     <button type="submit" class="btn">Calculate</button>
                 </form>
                 <div id="calcResults"></div>
@@ -303,20 +302,119 @@
             const weight = parseFloat(document.getElementById('weight').value);
             const activity = parseFloat(document.getElementById('activity').value);
             const bmi = (weight / ((height / 100) ** 2)).toFixed(1);
-            let bmr = gender === 'male' ? 88.36 + 13.4 * weight + 4.8 * height + 5.7 * age : 447.6 + 9.2 * weight + 3.1 * height - 4.3 * age;
+            let bmr = gender === 'male' ?
+                88.36 + 13.4 * weight + 4.8 * height + 5.7 * age :
+                447.6 + 9.2 * weight + 3.1 * height - 4.3 * age;
             const calories = Math.round(bmr * activity);
             let advice;
             if (bmi < 18.5) advice = "Underweight: Increase calories & strength.";
             else if (bmi < 24.9) advice = "Healthy: Maintain diet & exercise.";
             else if (bmi < 29.9) advice = "Overweight: Add cardio & reduce calories.";
             else advice = "Obese: Focus on calorie deficit & workouts.";
-            calcResults.innerHTML = `<p><b>BMI:</b> ${bmi}</p><p><b>BMR:</b> ${Math.round(bmr)} cal/day</p><p><b>Daily Calories:</b> ${calories} cal/day</p><p style="color:gold;"><b>Advice:</b> ${advice}</p>`;
+            calcResults.innerHTML = `<p><b>BMI:</b> ${bmi}</p>
+                                 <p><b>BMR:</b> ${Math.round(bmr)} cal/day</p>
+                                 <p><b>Daily Calories:</b> ${calories} cal/day</p>
+                                 <p style="color:gold;"><b>Advice:</b> ${advice}</p>`;
             document.getElementById('pBMI').value = bmi;
         });
 
-        // --- Add your previous JS for progress, workout, diet, goals here (from your existing script) ---
-        // All charts and notifications work as before.
+        // ====== Chart Examples with New Types ======
+        // Dummy Data
+        const dates = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+        const weightData = [72, 71.8, 71.6, 71.4, 71.2, 71.1, 70.9];
+        const calorieData = [2200, 2000, 2500, 2300, 2100, 2600, 2400];
+        const bmiData = [25, 24.8, 24.7, 24.6, 24.5, 24.4, 24.3];
+        const workoutData = [3, 2, 1, 2, 3, 0, 1];
+        const dietData = [500, 700, 400, 600]; // Breakfast, Lunch, Snack, Dinner
+
+        // 1️⃣ Weight Progress → Area Chart
+        new Chart(document.getElementById('weightChart'), {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'Weight (kg)',
+                    data: weightData,
+                    fill: true,
+                    backgroundColor: 'rgba(102,126,234,0.3)',
+                    borderColor: '#667eea',
+                    tension: 0.4
+                }]
+            }
+        });
+
+        // 2️⃣ Calories → Stacked Bar Chart
+        new Chart(document.getElementById('calorieChart'), {
+            type: 'bar',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'Calories Consumed',
+                    data: calorieData,
+                    backgroundColor: '#ff6a88'
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: true
+                    },
+                    y: {
+                        stacked: true
+                    }
+                }
+            }
+        });
+
+        // 3️⃣ BMI → Radar Chart
+        new Chart(document.getElementById('bmiChart'), {
+            type: 'radar',
+            data: {
+                labels: ["Underweight", "Normal", "Overweight", "Obese"],
+                datasets: [{
+                    label: 'Your BMI Trend',
+                    data: [18.5, 24.9, 29.9, Math.max(...bmiData)],
+                    backgroundColor: 'rgba(255,153,172,0.3)',
+                    borderColor: '#ff99ac',
+                    pointBackgroundColor: '#764ba2'
+                }]
+            }
+        });
+
+        // 4️⃣ Workout Log → Doughnut Chart
+        new Chart(document.getElementById('workoutChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ["Cardio", "Strength", "Yoga", "HIIT"],
+                datasets: [{
+                    data: [5, 3, 2, 4],
+                    backgroundColor: ["#667eea", "#764ba2", "#ff6a88", "#ff99ac"]
+                }]
+            }
+        });
+
+        // 5️⃣ Diet Log → Horizontal Bar Chart
+        new Chart(document.getElementById('dietChart'), {
+            type: 'bar',
+            data: {
+                labels: ["Breakfast", "Lunch", "Snack", "Dinner"],
+                datasets: [{
+                    label: 'Calories',
+                    data: dietData,
+                    backgroundColor: ["#667eea", "#764ba2", "#ff6a88", "#ff99ac"]
+                }]
+            },
+            options: {
+                indexAxis: 'y'
+            }
+        });
     </script>
+
 
 </body>
 
