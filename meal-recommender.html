@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Meal Recommender</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2, #ff6a88, #ff99ac);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            color: white;
+        }
+        
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+        
+        nav a:hover {
+            color: #FFD700;
+        }
+        
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+            color: white;
+        }
+        
+        h1 {
+            margin-bottom: 20px;
+        }
+        
+        .input-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 10px 0;
+            width: 400px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .checkbox-group {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            font-weight: normal;
+        }
+        
+        .checkbox-group input {
+            margin-right: 8px;
+        }
+        
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            background: #FFD700;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        button:hover {
+            background: #ffc107;
+        }
+        
+        .result {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 450px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">🏋️ Holu Fitness</div>
+        <div>
+            <a href="index.html">Home</a>
+            <a href="workout.html">Workout Planner</a>
+            <a href="fitnesscalculator.html">Fitness Calculator</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>🍱 AI Meal Recommender</h1>
+
+        <div class="input-box">
+            <label>Workout Hours Today ⏱️</label>
+            <input type="number" id="workoutHours" min="0" value="1">
+
+            <label>Sleep Hours Last Night 😴</label>
+            <input type="number" id="sleepHours" min="0" max="24" value="7">
+
+            <label>Meals Already Eaten 🍽️</label>
+            <div class="checkbox-group" id="mealsCheckbox"></div>
+        </div>
+
+        <button onclick="getRecommendation()">Get Recommendation</button>
+
+        <div id="result" class="result" style="display:none;"></div>
+    </div>
+
+    <script>
+        // ==============================
+        // Food Database
+        // ==============================
+        const foodDatabase = [{
+            name: "Samosa",
+            calories: 200,
+            protein: 4,
+            carbs: 25,
+            fat: 10
+        }, {
+            name: "Pani Puri",
+            calories: 150,
+            protein: 3,
+            carbs: 20,
+            fat: 5
+        }, {
+            name: "Vada Pav",
+            calories: 300,
+            protein: 6,
+            carbs: 40,
+            fat: 12
+        }, {
+            name: "Pizza (2 slices)",
+            calories: 600,
+            protein: 20,
+            carbs: 70,
+            fat: 22
+        }, {
+            name: "Burger",
+            calories: 500,
+            protein: 18,
+            carbs: 60,
+            fat: 20
+        }, {
+            name: "Grilled Chicken + Rice",
+            calories: 600,
+            protein: 40,
+            carbs: 60,
+            fat: 15
+        }, {
+            name: "Paneer Curry + Roti",
+            calories: 500,
+            protein: 25,
+            carbs: 50,
+            fat: 18
+        }, {
+            name: "Dal + Rice",
+            calories: 400,
+            protein: 15,
+            carbs: 55,
+            fat: 8
+        }, {
+            name: "Boiled Eggs (2)",
+            calories: 150,
+            protein: 12,
+            carbs: 1,
+            fat: 10
+        }, {
+            name: "Banana",
+            calories: 120,
+            protein: 1,
+            carbs: 30,
+            fat: 0
+        }, {
+            name: "Apple",
+            calories: 100,
+            protein: 0,
+            carbs: 25,
+            fat: 0
+        }, {
+            name: "Protein Bar",
+            calories: 250,
+            protein: 20,
+            carbs: 20,
+            fat: 8
+        }, {
+            name: "Almonds (10)",
+            calories: 70,
+            protein: 3,
+            carbs: 2,
+            fat: 6
+        }, {
+            name: "Cashews (10)",
+            calories: 90,
+            protein: 3,
+            carbs: 5,
+            fat: 7
+        }, {
+            name: "Walnuts (5)",
+            calories: 80,
+            protein: 2,
+            carbs: 2,
+            fat: 7
+        }, {
+            name: "Milkshake",
+            calories: 300,
+            protein: 8,
+            carbs: 40,
+            fat: 10
+        }, {
+            name: "Soft Drink (can)",
+            calories: 150,
+            protein: 0,
+            carbs: 38,
+            fat: 0
+        }, {
+            name: "Green Tea",
+            calories: 0,
+            protein: 0,
+            carbs: 0,
+            fat: 0
+        }];
+
+        // populate checkbox list
+        const checkboxContainer = document.getElementById("mealsCheckbox");
+        foodDatabase.forEach(food => {
+            const label = document.createElement("label");
+            const input = document.createElement("input");
+            input.type = "checkbox";
+            input.value = food.name;
+            label.appendChild(input);
+            label.appendChild(document.createTextNode(`${food.name} (${food.calories} cal)`));
+            checkboxContainer.appendChild(label);
+        });
+
+        function getRecommendation() {
+            let workoutHours = parseFloat(document.getElementById("workoutHours").value) || 0;
+            let sleepHours = parseFloat(document.getElementById("sleepHours").value) || 7;
+            let calorieTarget = 2200;
+
+            let caloriesBurned = workoutHours * 400;
+            let sleepModifier = sleepHours >= 7 ? 0.95 : 1.05;
+
+            let selectedFoods = [...document.querySelectorAll("#mealsCheckbox input:checked")].map(i => i.value);
+            let consumed = 0,
+                protein = 0,
+                carbs = 0,
+                fat = 0;
+
+            selectedFoods.forEach(foodName => {
+                let food = foodDatabase.find(f => f.name === foodName);
+                if (food) {
+                    consumed += food.calories;
+                    protein += food.protein;
+                    carbs += food.carbs;
+                    fat += food.fat;
+                }
+            });
+
+            let netCalories = (calorieTarget - (consumed - caloriesBurned)) * sleepModifier;
+
+            let candidates;
+            if (netCalories > 800) {
+                candidates = foodDatabase.filter(f => f.calories >= 500);
+            } else if (netCalories > 400) {
+                candidates = foodDatabase.filter(f => f.calories >= 300 && f.calories <= 500);
+            } else if (netCalories > 100) {
+                candidates = foodDatabase.filter(f => f.calories >= 100 && f.calories <= 300);
+            } else {
+                candidates = foodDatabase.filter(f => f.calories <= 100);
+            }
+
+            let recommendation = candidates[Math.floor(Math.random() * candidates.length)];
+
+            document.getElementById("result").style.display = "block";
+            document.getElementById("result").innerHTML = `
+        <h3>📊 Today's Summary</h3>
+        <p>Calories Burned: ${caloriesBurned.toFixed(0)} kcal</p>
+        <p>Calories Consumed: ${consumed} kcal</p>
+        <p>Protein: ${protein}g | Carbs: ${carbs}g | Fat: ${fat}g</p>
+        <p>Sleep: ${sleepHours} hours</p>
+        <p><strong>Net Calories Left: ${netCalories.toFixed(0)} kcal</strong></p>
+        <hr>
+        <h3>🍴 AI Recommendation</h3>
+        <p><b>${recommendation.name}</b><br>
+        ${recommendation.calories} cal | Protein: ${recommendation.protein}g | Carbs: ${recommendation.carbs}g | Fat: ${recommendation.fat}g</p>
+      `;
+        }
+    </script>
+
+</body>
+
+</html>
