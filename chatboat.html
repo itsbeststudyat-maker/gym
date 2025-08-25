@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Buddy Chatbot</title>
+    <link href='https://fonts.googleapis.com/css?family=Baloo Bhai' rel='stylesheet'>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Baloo Bhai', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2, #ff6a88, #ff99ac);
+            height: 100vh;
+        }
+        /* Navbar like Meal Planner */
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea, #764ba2, #ff6a88, #ff99ac);
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .navbar {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        
+        .navbar li a:hover {
+            color: gold;
+            text-decoration: underline;
+        }
+        /* Floating Chatbot Button */
+        
+        #chatbot-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #FFD700;
+            color: black;
+            padding: 15px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+            transition: 0.3s;
+        }
+        
+        #chatbot-btn:hover {
+            background: #ffc107;
+            transform: scale(1.1);
+        }
+        /* Chatbox */
+        
+        #chatbox {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 300px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        #chat-header {
+            background: #FFD700;
+            color: black;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        #chat-messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            font-size: 14px;
+            color: white;
+        }
+        
+        .message {
+            margin: 8px 0;
+            padding: 8px 12px;
+            border-radius: 10px;
+            max-width: 80%;
+            line-height: 1.4;
+        }
+        
+        .user {
+            background: #36A2EB;
+            align-self: flex-end;
+            color: white;
+        }
+        
+        .bot {
+            background: #FF6A88;
+            align-self: flex-start;
+            color: white;
+        }
+        
+        #chat-input {
+            display: flex;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        #chat-input input {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+        }
+        
+        #chat-input button {
+            margin-left: 8px;
+            padding: 8px 12px;
+            border: none;
+            background: #FFD700;
+            color: black;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        #chat-input button:hover {
+            background: #ffc107;
+        }
+        /* Offset body content below navbar */
+        
+        .content {
+            margin-top: 70px;
+            padding: 20px;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar like Meal Planner -->
+    <header>
+        <div style="font-weight:bold; font-size:20px; color:white;">Holu Fitness</div>
+        <ul class="navbar">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="mealplanner.html">Meal Planner</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </header>
+
+    <div class="content">
+        <h1>🤖 Fitness Buddy Chatbot</h1>
+        <p>Ask me anything about fitness, workouts, meals, or motivation!</p>
+    </div>
+
+    <!-- Floating Chatbot Button -->
+    <button id="chatbot-btn">💬</button>
+
+    <!-- Chatbox -->
+    <div id="chatbox">
+        <div id="chat-header">🤖 Fitness Buddy</div>
+        <div id="chat-messages"></div>
+        <div id="chat-input">
+            <input type="text" id="userInput" placeholder="Ask me anything...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const chatbotBtn = document.getElementById("chatbot-btn");
+        const chatbox = document.getElementById("chatbox");
+        const messages = document.getElementById("chat-messages");
+        const userInput = document.getElementById("userInput");
+
+        chatbotBtn.addEventListener("click", () => {
+            chatbox.style.display = (chatbox.style.display === "flex") ? "none" : "flex";
+        });
+
+        function addMessage(text, sender) {
+            const msg = document.createElement("div");
+            msg.classList.add("message", sender);
+            msg.innerText = text;
+            messages.appendChild(msg);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text) return;
+            addMessage(text, "user");
+            userInput.value = "";
+            setTimeout(() => {
+                addMessage(getBotResponse(text), "bot");
+            }, 500);
+        }
+
+        function getBotResponse(input) {
+            input = input.toLowerCase();
+            if (input.includes("breakfast")) return "🥣 A good breakfast: Oats + Milk + Banana + Peanut Butter!";
+            if (input.includes("pushup")) return "💪 Beginners: 3 sets of 10-15 pushups daily.";
+            if (input.includes("motivation")) return "🔥 Stay consistent! Small steps every day lead to big changes.";
+            if (input.includes("protein")) return "🍗 Protein sources: Eggs, Chicken, Paneer, Tofu, Lentils.";
+            if (input.includes("fat loss")) return "🏃‍♂️ Focus on cardio + calorie deficit + high protein meals.";
+            if (input.includes("water")) return "💧 Drink 3-4 liters of water daily.";
+
+            const quotes = [
+                "🏋️ Push yourself, because no one else will.",
+                "🔥 Fitness is about being better than yesterday.",
+                "💪 The body achieves what the mind believes.",
+                "🚴 Challenge your limits every day!"
+            ];
+            return quotes[Math.floor(Math.random() * quotes.length)];
+        }
+    </script>
+
+</body>
+
+</html>
