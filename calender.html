@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Planner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2, #ff6a88, #ff99ac);
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        
+        nav {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        nav a:hover {
+            text-decoration: underline;
+        }
+        
+        .container {
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        #weekGrid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .day-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .day-box:hover {
+            transform: scale(1.05);
+        }
+        
+        #day-detail {
+            display: none;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        input,
+        select,
+        button {
+            margin: 5px 0;
+            padding: 8px;
+            border: none;
+            border-radius: 8px;
+        }
+        
+        button {
+            background: #FFD700;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            background: #ffc107;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th,
+        td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .summary-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .summary-item {
+            margin: 10px 0;
+            font-size: 1.2em;
+        }
+        
+        footer {
+            background: rgba(0, 0, 0, 0.4);
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="mealplanner.html">Meal Planner</a>
+        <a href="chatbot.html">Chatbot</a>
+        <a href="calendar.html">Weekly Planner</a>
+    </nav>
+
+    <div class="container">
+        <h1>🏋️ Weekly Fitness Planner</h1>
+
+        <div id="weekGrid"></div>
+
+        <div id="day-detail">
+            <h2 id="dayTitle"></h2>
+            <label>Exercise:</label>
+            <select id="exerciseSelect">
+      <option>Cardio</option>
+      <option>Strength</option>
+      <option>Yoga</option>
+      <option>Rest</option>
+    </select><br>
+            <label>Meal:</label>
+            <select id="mealSelect">
+      <option>Balanced</option>
+      <option>High Protein</option>
+      <option>Low Carb</option>
+      <option>Cheat Meal</option>
+    </select><br>
+            <label>Workout Hours:</label>
+            <input type="number" id="workoutHours" min="0" max="24"><br>
+            <label>Rest Hours:</label>
+            <input type="number" id="restHours" min="0" max="24"><br>
+            <label>Water Intake (Liters):</label>
+            <input type="number" id="waterIntake" min="0" step="0.1"><br>
+            <label>Calories Target:</label>
+            <input type="number" id="caloriesTarget" min="0"><br>
+            <button onclick="saveDayData()">Save</button>
+        </div>
+
+        <!-- Weekly Summary Table -->
+        <table id="weeklySummary">
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Exercise</th>
+                    <th>Meal</th>
+                    <th>Workout Hrs</th>
+                    <th>Rest Hrs</th>
+                    <th>Water (L)</th>
+                    <th>Calories</th>
+                    <th>Badge</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!-- Weekly Summary Section -->
+        <div class="summary-box" id="weeklySummaryBox">
+            <h2>📊 Weekly Summary</h2>
+            <div class="summary-item" id="avgCalories">🔥 Avg Calories: 0</div>
+            <div class="summary-item" id="avgWorkout">💪 Avg Workout Hours: 0</div>
+            <div class="summary-item" id="avgRest">😴 Avg Rest Hours: 0</div>
+            <div class="summary-item" id="totalWater">💧 Total Water Intake: 0 L</div>
+            <div class="summary-item" id="weeklyBadge">🏅 Weekly Badge: ⬜</div>
+            <div class="summary-item" id="motivation">✨ Motivation: Let's start your journey!</div>
+        </div>
+
+    </div>
+
+    <footer>
+        &copy; 2025 Holu Fitness. All Rights Reserved.
+    </footer>
+
+    <script>
+        const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+        let weekData = {};
+
+        // Initialize week grid
+        const weekGrid = document.getElementById('weekGrid');
+        days.forEach(day => {
+            weekData[day] = {
+                exercise: '',
+                meal: '',
+                workout: 0,
+                rest: 0,
+                water: 0,
+                calories: 0,
+                badge: '⬜'
+            };
+            const box = document.createElement('div');
+            box.classList.add('day-box');
+            box.id = day;
+            box.innerHTML = `<strong>${day}</strong><br><span id="${day}-emoji">⬜</span>`;
+            box.addEventListener('click', () => openDayDetail(day));
+            weekGrid.appendChild(box);
+        });
+
+        // Open day detail input
+        function openDayDetail(day) {
+            document.getElementById('day-detail').style.display = 'block';
+            document.getElementById('dayTitle').innerText = day;
+            document.getElementById('exerciseSelect').value = weekData[day].exercise || 'Cardio';
+            document.getElementById('mealSelect').value = weekData[day].meal || 'Balanced';
+            document.getElementById('workoutHours').value = weekData[day].workout;
+            document.getElementById('restHours').value = weekData[day].rest;
+            document.getElementById('waterIntake').value = weekData[day].water;
+            document.getElementById('caloriesTarget').value = weekData[day].calories;
+        }
+
+        // Save day data
+        function saveDayData() {
+            const day = document.getElementById('dayTitle').innerText;
+            const exercise = document.getElementById('exerciseSelect').value;
+            const meal = document.getElementById('mealSelect').value;
+            const workout = parseFloat(document.getElementById('workoutHours').value) || 0;
+            const rest = parseFloat(document.getElementById('restHours').value) || 0;
+            const water = parseFloat(document.getElementById('waterIntake').value) || 0;
+            const calories = parseFloat(document.getElementById('caloriesTarget').value) || 0;
+
+            weekData[day] = {
+                exercise,
+                meal,
+                workout,
+                rest,
+                water,
+                calories,
+                badge: calculateBadge(workout, calories, water)
+            };
+            document.getElementById(day + '-emoji').innerText = weekData[day].badge;
+
+            updateWeeklySummary();
+            alert(day + ' data saved!');
+        }
+
+        // Badge calculation
+        function calculateBadge(workout, calories, water) {
+            let score = 0;
+            if (workout >= 1) score++;
+            if (calories >= 2000) score++;
+            if (water >= 2) score++;
+            if (score == 3) return '👑';
+            if (score == 2) return '💪';
+            if (score == 1) return '🔥';
+            return '⬜';
+        }
+
+        // Update weekly summary table + box
+        function updateWeeklySummary() {
+            const tbody = document.querySelector('#weeklySummary tbody');
+            tbody.innerHTML = '';
+
+            let totalWorkout = 0,
+                totalRest = 0,
+                totalWater = 0,
+                totalCalories = 0;
+
+            days.forEach(day => {
+                const data = weekData[day];
+                totalWorkout += data.workout;
+                totalRest += data.rest;
+                totalWater += data.water;
+                totalCalories += data.calories;
+
+                const row = `<tr>
+      <td>${day}</td>
+      <td>${data.exercise}</td>
+      <td>${data.meal}</td>
+      <td>${data.workout}</td>
+      <td>${data.rest}</td>
+      <td>${data.water}</td>
+      <td>${data.calories}</td>
+      <td>${data.badge}</td>
+    </tr>`;
+                tbody.innerHTML += row;
+            });
+
+            // Weekly averages
+            let avgCalories = (totalCalories / 7).toFixed(1);
+            let avgWorkout = (totalWorkout / 7).toFixed(1);
+            let avgRest = (totalRest / 7).toFixed(1);
+
+            // Weekly badge
+            let weeklyScore = 0;
+            if (totalWorkout >= 7) weeklyScore++;
+            if (totalCalories >= 14000) weeklyScore++;
+            if (totalWater >= 14) weeklyScore++;
+            let badge = weeklyScore >= 3 ? '👑' : weeklyScore == 2 ? '💪' : weeklyScore == 1 ? '🔥' : '⬜';
+
+            // Motivation
+            let motivation = "Keep going!";
+            if (weeklyScore == 3) motivation = "👑 King! Outstanding progress this week!";
+            else if (weeklyScore == 2) motivation = "💪 Strong effort! You're on the right path!";
+            else if (weeklyScore == 1) motivation = "🔥 Good start! Push a little harder next week!";
+            else motivation = "⬜ Let's set your goals and crush them next week!";
+
+            // Update summary box
+            document.getElementById('avgCalories').innerText = "🔥 Avg Calories: " + avgCalories;
+            document.getElementById('avgWorkout').innerText = "💪 Avg Workout Hours: " + avgWorkout;
+            document.getElementById('avgRest').innerText = "😴 Avg Rest Hours: " + avgRest;
+            document.getElementById('totalWater').innerText = "💧 Total Water Intake: " + totalWater.toFixed(1) + " L";
+            document.getElementById('weeklyBadge').innerText = "🏅 Weekly Badge: " + badge;
+            document.getElementById('motivation').innerText = "✨ Motivation: " + motivation;
+        }
+
+        updateWeeklySummary();
+    </script>
+
+</body>
+
+</html>
